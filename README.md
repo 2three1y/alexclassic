@@ -21,6 +21,34 @@ The target is a portable synthesis pipeline with two front ends: an iOS Audio Un
 
 The engine should accept text or phonetic input, select and transform the appropriate wavetable material, apply formant and timing behavior, and render audio without requiring a cloud connection.
 
+## Roadmap
+
+### Phase 1: Leopard wavetable extraction and decompression
+
+- Identify the `Alex.SpeechVoice` container and document its relevant headers, indexes, compression, and checksum behavior.
+- Build a deterministic extractor that preserves source offsets and emits validated PCM or lossless intermediate assets.
+- Record provenance, tool versions, hashes, and extraction limitations so results are reproducible and auditable.
+
+### Phase 2: Formant and phoneme transition mapping
+
+- Catalog phoneme units, allophones, diphones, and transition boundaries in the extracted material.
+- Measure formants, pitch contours, duration, coarticulation, and breath/noise components.
+- Define a machine-readable mapping format with explicit units, sample rates, confidence levels, and unknown values.
+
+### Phase 3: DSP and synthesis engine prototype
+
+- Implement offline unit selection and wavetable playback with deterministic timing and pitch control.
+- Prototype formant-preserving pitch shifting, crossfades, envelope shaping, and expressive/breath components.
+- Add golden audio fixtures, numerical checks, listening tests, and regression reports; document artifacts rather than masking them.
+
+### Phase 4: iOS Audio Unit and sovereign local speech service
+
+- Package the engine as an iOS Audio Unit with a clearly labeled, keyboard-accessible configuration surface and VoiceOver-friendly status reporting.
+- Provide a local speech-service interface for offline text or phonetic input, with no cloud dependency or telemetry.
+- Define resource, latency, interruption, battery, and licensing behavior before treating the prototype as production-ready.
+
+Each phase should preserve accessibility, local data ownership, and clear separation between verified findings and hypotheses. Interfaces must expose meaningful labels, focus order, errors, progress, and completion state to screen-reader and keyboard users.
+
 ## Accessibility rationale
 
 Modern iOS speech has not always preserved the reliability and character blind users depend on. VoiceOver degradation, pitch distortion, and changes in speech behavior can make navigation and concentration harder, especially when users have no practical visual fallback.
